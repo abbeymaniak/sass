@@ -1,0 +1,85 @@
+@mixin mobile-screen {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin medium-screen {
+  @media screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin large-screen {
+  @media screen and (min-width: 1024px) {
+    @content;
+  }
+}
+
+@function rem($target, $context: $base-font-size) {
+  @if $target == 0 {
+    @return 0;
+  }
+
+  @return $target/$context + 0rem;
+}
+
+$base-font-size: 16px;
+
+@function cp($target, $container) {
+  @return ($target/$container) * 100%;
+}
+
+body {
+  background: $white;
+}
+
+h2 {
+  font-family: $font-primary;
+}
+
+.block {
+  background: #fff;
+  padding: rem(20px);
+  width: 300px;
+  margin: 40px auto;
+
+  .sub-block {
+    width: cp(82px, 300px);
+    background: #000;
+    color: #fff;
+    margin-top: 20px;
+  }
+
+  &.--be-red {
+    background: #ccc;
+  }
+
+  //   media styles below
+
+  @include mobile-screen {
+    background-color: aqua;
+  }
+
+  @include medium-screen {
+    width: 600px;
+  }
+
+  @include large-screen {
+    width: 1000px;
+  }
+}
+
+// using foreach colors
+
+$colors: (
+  red: "#ff0000",
+  black: "#000",
+  gray: "#ccc",
+);
+
+@each $name, $value in $colors {
+  .#{$name}-block {
+    background: #{$value};
+  }
+}
